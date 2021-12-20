@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import CleverTap from 'clevertap-react-native';
 
@@ -38,11 +45,36 @@ export default function App() {
       <Text>Clevertap Reproduce</Text>
       <Text>InboxCount: {inboxCount}</Text>
       <Text>Inbox Data : </Text>
-      <View>
+      <ScrollView>
         {inboxs.map(ib => {
-          return <Text>{JSON.stringify(ib)}</Text>;
+          return (
+            <View
+              key={Math.random()}
+              style={{
+                marginVertical: 16,
+                paddingHorizontal: 8,
+              }}>
+              {/* <Text>{JSON.stringify(ib)}</Text> */}
+              <Text>
+                {JSON.stringify(
+                  ib.msg?.content[0]?.action?.links[0]?.kv?.images,
+                )}
+              </Text>
+              <Text>{ib.msg.content[0].title.text}</Text>
+              <Text>{ib.msg.content[0].message.text}</Text>
+              <Image
+                style={{
+                  height: 150,
+                  width: '100%',
+                }}
+                source={{
+                  uri: ib.msg?.content[0]?.action?.links[0]?.kv?.images,
+                }}
+              />
+            </View>
+          );
         })}
-      </View>
+      </ScrollView>
     </View>
   );
 }
