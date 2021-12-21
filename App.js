@@ -14,6 +14,7 @@ export default function App() {
   CleverTap.setDebugLevel(3);
   CleverTap.registerForPush();
   CleverTap.initializeInbox();
+  console.log('CleverTap.initializeInbox();', CleverTap.initializeInbox());
 
   const [inboxs, setInboxs] = useState([]);
   const [inboxCount, setinboxCount] = useState(0);
@@ -26,17 +27,19 @@ export default function App() {
       Birthdate: new Date('2020-03-03T06:35:31'),
     });
 
-    CleverTap.getInboxMessageCount((err, res) => {
-      console.log('Total Messages: ', res, err);
-      setinboxCount(res);
-    });
+    setTimeout(() => {
+      CleverTap.getInboxMessageCount((err, res) => {
+        console.log('Total Messages: ', res, err);
+        setinboxCount(res);
+      });
 
-    CleverTap.getAllInboxMessages((err, res) => {
-      console.log('All Inbox Messages: ', res, err);
-      setInboxs(res);
-    });
+      CleverTap.getAllInboxMessages((err, res) => {
+        console.log('All Inbox Messages: ', res, err);
+        setInboxs(res);
+      });
 
-    CleverTap.recordEvent('testEvent-PFYCL-123');
+      CleverTap.recordEvent('testEvent-PFYCL-123');
+    }, 5000);
   }, []);
 
   return (
